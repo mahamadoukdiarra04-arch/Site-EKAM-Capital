@@ -1067,13 +1067,44 @@ select {
 
 .phone-field {
   display: grid;
-  grid-template-columns: minmax(170px, 0.9fr) minmax(180px, 1fr);
-  gap: 10px;
+  grid-template-columns: 112px minmax(0, 1fr);
+  overflow: visible;
+  border: 1px solid rgba(63, 63, 63, 0.36);
+  border-radius: 2px;
+  background: #f7f5f3;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .phone-field select,
 .phone-field input {
   min-width: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.phone-field select {
+  cursor: pointer;
+  border-right: 1px solid rgba(63, 63, 63, 0.22);
+  color: var(--blue);
+  font-weight: 800;
+  padding: 0 8px;
+}
+
+.phone-field input {
+  padding: 0 16px;
+}
+
+.phone-field select:focus,
+.phone-field input:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+.phone-field:focus-within {
+  border-color: var(--green);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(31, 77, 54, 0.12);
 }
 
 textarea {
@@ -1764,7 +1795,6 @@ textarea:focus {
   .feature-grid,
   .method-steps,
   .form-grid,
-  .phone-field,
   .site-footer {
     grid-template-columns: 1fr;
   }
