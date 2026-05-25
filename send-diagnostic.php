@@ -42,6 +42,7 @@ if (field('website') !== '') {
 
 $nom = field('nom');
 $entreprise = field('entreprise');
+$indicatif = field('indicatif');
 $telephone = field('telephone');
 $email = field('email');
 $typeOrganisation = field('type_organisation');
@@ -49,10 +50,11 @@ $service = field('service');
 $probleme = field('probleme');
 $message = field('message');
 
-if ($nom === '' || $entreprise === '' || $telephone === '' || $service === '') {
+if ($nom === '' || $entreprise === '' || $indicatif === '' || $telephone === '' || $service === '') {
     respond(false, 'Merci de remplir les champs obligatoires.', 422);
 }
 
+$telephoneComplet = trim($indicatif . ' ' . $telephone);
 $replyTo = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : $to;
 $subjectTarget = preg_replace('/\s+/', ' ', $entreprise);
 $subjectTarget = substr($subjectTarget, 0, 80);
@@ -64,7 +66,7 @@ $body = implode("\n", [
     '',
     'Nom et prénom: ' . $nom,
     "Nom de l'entreprise: " . $entreprise,
-    'Téléphone / WhatsApp: ' . $telephone,
+    'Téléphone / WhatsApp: ' . $telephoneComplet,
     'Email: ' . ($email !== '' ? $email : 'Non renseigné'),
     "Type d'organisation: " . ($typeOrganisation !== '' ? $typeOrganisation : 'Non renseigné'),
     'Service recherché: ' . $service,

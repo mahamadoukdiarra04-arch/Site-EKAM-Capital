@@ -1065,6 +1065,17 @@ select {
   padding: 0 16px;
 }
 
+.phone-field {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.9fr) minmax(180px, 1fr);
+  gap: 10px;
+}
+
+.phone-field select,
+.phone-field input {
+  min-width: 0;
+}
+
 textarea {
   resize: vertical;
   padding: 14px 16px;
@@ -1753,6 +1764,7 @@ textarea:focus {
   .feature-grid,
   .method-steps,
   .form-grid,
+  .phone-field,
   .site-footer {
     grid-template-columns: 1fr;
   }

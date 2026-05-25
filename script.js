@@ -54,26 +54,45 @@ if ("IntersectionObserver" in window) {
   revealSections.forEach((section) => section.classList.add("is-visible"));
 }
 
-const diagnosticFields = [
-  ["nom", "Nom et prénom"],
-  ["entreprise", "Nom de l'entreprise"],
-  ["telephone", "Téléphone / WhatsApp"],
-  ["email", "Email"],
-  ["type_organisation", "Type d'organisation"],
-  ["service", "Service recherché"],
-  ["probleme", "Problème principal rencontré"],
-  ["message", "Message"],
-];
-
 const getFieldValue = (form, name) => {
   const field = form.elements[name];
   return field ? field.value.trim() : "";
 };
 
+const getPhoneValue = (form) => {
+  const indicatif = getFieldValue(form, "indicatif");
+  const telephone = getFieldValue(form, "telephone");
+  return [indicatif, telephone].filter(Boolean).join(" ");
+};
+
+const diagnosticFields = [
+  { name: "nom", label: "Nom et prénom" },
+  { name: "entreprise", label: "Nom de l'entreprise" },
+  { label: "Téléphone / WhatsApp", getValue: getPhoneValue },
+  { name: "email", label: "Email" },
+  { name: "type_organisation", label: "Type d'organisation" },
+  { name: "service", label: "Service recherché" },
+  { name: "probleme", label: "Problème principal rencontré" },
+  { name: "message", label: "Message" },
+];
+
+const syncPhonePlaceholder = (select) => {
+  const form = select.form;
+  const phoneInput = form?.elements.telephone;
+  const selectedOption = select.selectedOptions[0];
+  const example = selectedOption?.dataset.example;
+
+  if (!phoneInput || !example) return;
+
+  phoneInput.placeholder = example;
+  phoneInput.setAttribute("aria-label", `Numéro local, exemple ${example}`);
+};
+
 const buildDiagnosticMessage = (form) =>
   diagnosticFields
-    .map(([name, label]) => {
-      const value = getFieldValue(form, name);
+    .map((field) => {
+      const value = field.getValue ? field.getValue(form) : getFieldValue(form, field.name);
+      const label = field.label;
       return value ? `${label}: ${value}` : null;
     })
     .filter(Boolean)
@@ -109,6 +128,12 @@ const setFormFeedback = (form, type) => {
 document.querySelectorAll(".contact-form").forEach((form) => {
   const submitButton = form.querySelector('button[type="submit"]');
   const whatsappButton = form.querySelector("[data-whatsapp-submit]");
+  const indicatifSelect = form.elements.indicatif;
+
+  if (indicatifSelect) {
+    syncPhonePlaceholder(indicatifSelect);
+    indicatifSelect.addEventListener("change", () => syncPhonePlaceholder(indicatifSelect));
+  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -133,6 +158,7 @@ document.querySelectorAll(".contact-form").forEach((form) => {
       }
 
       form.reset();
+      if (indicatifSelect) syncPhonePlaceholder(indicatifSelect);
       setFormFeedback(form, "success");
     } catch (error) {
       setFormFeedback(form, "error");

@@ -302,24 +302,48 @@
         </div>
 
         <div class="contact-layout">
-          <form class="contact-form" action="send-diagnostic.php" method="post">
+          <form class="contact-form" action="send-diagnostic.php" method="post" autocomplete="on">
             <div class="form-grid">
               <input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
               <label>
                 Nom et prénom
-                <input type="text" name="nom" placeholder="Votre nom complet" required />
+                <input type="text" name="nom" placeholder="Votre nom complet" autocomplete="name" required />
               </label>
               <label>
                 Nom de l’entreprise
-                <input type="text" name="entreprise" placeholder="Nom de l’entreprise" required />
+                <input type="text" name="entreprise" placeholder="Nom de l’entreprise" autocomplete="organization" required />
               </label>
               <label>
                 Téléphone ou WhatsApp
-                <input type="tel" name="telephone" placeholder="+223 ..." required />
+                <div class="phone-field">
+                  <select name="indicatif" aria-label="Pays et indicatif téléphonique" autocomplete="tel-country-code" required>
+                    <option value="+223" data-example="72 82 41 57" selected>Mali (+223)</option>
+                    <option value="+226" data-example="70 00 00 00">Burkina Faso (+226)</option>
+                    <option value="+225" data-example="07 00 00 00 00">Côte d’Ivoire (+225)</option>
+                    <option value="+221" data-example="77 000 00 00">Sénégal (+221)</option>
+                    <option value="+224" data-example="622 00 00 00">Guinée (+224)</option>
+                    <option value="+227" data-example="90 00 00 00">Niger (+227)</option>
+                    <option value="+222" data-example="22 00 00 00">Mauritanie (+222)</option>
+                    <option value="+229" data-example="01 60 00 00 00">Bénin (+229)</option>
+                    <option value="+228" data-example="90 00 00 00">Togo (+228)</option>
+                    <option value="+233" data-example="24 000 0000">Ghana (+233)</option>
+                    <option value="+234" data-example="801 234 5678">Nigeria (+234)</option>
+                    <option value="+237" data-example="6 70 00 00 00">Cameroun (+237)</option>
+                    <option value="+212" data-example="06 12 34 56 78">Maroc (+212)</option>
+                    <option value="+213" data-example="0550 00 00 00">Algérie (+213)</option>
+                    <option value="+216" data-example="20 000 000">Tunisie (+216)</option>
+                    <option value="+33" data-example="06 12 34 56 78">France (+33)</option>
+                    <option value="+32" data-example="0470 00 00 00">Belgique (+32)</option>
+                    <option value="+41" data-example="078 000 00 00">Suisse (+41)</option>
+                    <option value="+1" data-example="514 000 0000">Canada (+1)</option>
+                    <option value="+1" data-example="202 555 0100">États-Unis (+1)</option>
+                  </select>
+                  <input type="tel" name="telephone" placeholder="72 82 41 57" inputmode="tel" autocomplete="tel-national" required />
+                </div>
               </label>
               <label>
                 Email
-                <input type="email" name="email" placeholder="vous@entreprise.com" />
+                <input type="email" name="email" placeholder="vous@entreprise.com" autocomplete="email" />
               </label>
               <label>
                 Type d’organisation
