@@ -87,17 +87,22 @@ const setupPhonePicker = (form) => {
   const codeLabel = picker.querySelector("[data-country-code]");
   const list = picker.querySelector("[data-country-list]");
   const options = Array.from(picker.querySelectorAll("[data-country-option]"));
+  const fieldBlock = picker.closest(".phone-block");
 
   if (!codeInput || !phoneInput || !trigger || !flag || !codeLabel || !list || options.length === 0) return null;
 
   const closeList = () => {
     list.hidden = true;
     trigger.setAttribute("aria-expanded", "false");
+    fieldBlock?.classList.remove("is-picker-open");
+    form.classList.remove("has-phone-picker-open");
   };
 
   const openList = () => {
     list.hidden = false;
     trigger.setAttribute("aria-expanded", "true");
+    fieldBlock?.classList.add("is-picker-open");
+    form.classList.add("has-phone-picker-open");
   };
 
   const selectCountry = (option, shouldFocusPhone = true) => {
