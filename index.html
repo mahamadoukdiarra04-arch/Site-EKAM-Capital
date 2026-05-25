@@ -313,34 +313,40 @@
                 Nom de l’entreprise
                 <input type="text" name="entreprise" placeholder="Nom de l’entreprise" autocomplete="organization" required />
               </label>
-              <label>
-                Téléphone ou WhatsApp
-                <div class="phone-field">
-                  <select name="indicatif" aria-label="Pays et indicatif téléphonique" autocomplete="tel-country-code" required>
-                    <option value="+223" data-example="72 82 41 57" selected>ML - Mali (+223)</option>
-                    <option value="+226" data-example="70 00 00 00">BF - Burkina Faso (+226)</option>
-                    <option value="+225" data-example="07 00 00 00 00">CI - Côte d’Ivoire (+225)</option>
-                    <option value="+221" data-example="77 000 00 00">SN - Sénégal (+221)</option>
-                    <option value="+224" data-example="622 00 00 00">GN - Guinée (+224)</option>
-                    <option value="+227" data-example="90 00 00 00">NE - Niger (+227)</option>
-                    <option value="+222" data-example="22 00 00 00">MR - Mauritanie (+222)</option>
-                    <option value="+229" data-example="01 60 00 00 00">BJ - Bénin (+229)</option>
-                    <option value="+228" data-example="90 00 00 00">TG - Togo (+228)</option>
-                    <option value="+233" data-example="24 000 0000">GH - Ghana (+233)</option>
-                    <option value="+234" data-example="801 234 5678">NG - Nigeria (+234)</option>
-                    <option value="+237" data-example="6 70 00 00 00">CM - Cameroun (+237)</option>
-                    <option value="+212" data-example="06 12 34 56 78">MA - Maroc (+212)</option>
-                    <option value="+213" data-example="0550 00 00 00">DZ - Algérie (+213)</option>
-                    <option value="+216" data-example="20 000 000">TN - Tunisie (+216)</option>
-                    <option value="+33" data-example="06 12 34 56 78">FR - France (+33)</option>
-                    <option value="+32" data-example="0470 00 00 00">BE - Belgique (+32)</option>
-                    <option value="+41" data-example="078 000 00 00">CH - Suisse (+41)</option>
-                    <option value="+1" data-example="514 000 0000">CA - Canada (+1)</option>
-                    <option value="+1" data-example="202 555 0100">US - États-Unis (+1)</option>
-                  </select>
-                  <input type="tel" name="telephone" placeholder="72 82 41 57" inputmode="tel" autocomplete="tel-national" required />
+              <div class="field-block">
+                <span>Téléphone ou WhatsApp</span>
+                <div class="phone-field" data-phone-picker>
+                  <input class="country-code-storage" type="text" name="indicatif" value="+223" autocomplete="tel-country-code" tabindex="-1" aria-hidden="true" readonly />
+                  <button class="country-trigger" type="button" aria-label="Pays sélectionné : Mali +223" aria-haspopup="listbox" aria-expanded="false" data-country-trigger>
+                    <span class="country-flag" aria-hidden="true" data-country-flag>🇲🇱</span>
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="m4 6 4 4 4-4" />
+                    </svg>
+                  </button>
+                  <div class="country-list" role="listbox" aria-label="Choisir le pays et l’indicatif" hidden data-country-list>
+                    <button type="button" role="option" aria-selected="true" data-country-option data-code="+223" data-country="Mali" data-flag="🇲🇱"><span>🇲🇱</span><strong>Mali</strong><small>+223</small></button>
+                    <button type="button" role="option" data-country-option data-code="+229" data-country="Bénin" data-flag="🇧🇯"><span>🇧🇯</span><strong>Bénin</strong><small>+229</small></button>
+                    <button type="button" role="option" data-country-option data-code="+226" data-country="Burkina Faso" data-flag="🇧🇫"><span>🇧🇫</span><strong>Burkina Faso</strong><small>+226</small></button>
+                    <button type="button" role="option" data-country-option data-code="+238" data-country="Cap-Vert" data-flag="🇨🇻"><span>🇨🇻</span><strong>Cap-Vert</strong><small>+238</small></button>
+                    <button type="button" role="option" data-country-option data-code="+225" data-country="Côte d’Ivoire" data-flag="🇨🇮"><span>🇨🇮</span><strong>Côte d’Ivoire</strong><small>+225</small></button>
+                    <button type="button" role="option" data-country-option data-code="+220" data-country="Gambie" data-flag="🇬🇲"><span>🇬🇲</span><strong>Gambie</strong><small>+220</small></button>
+                    <button type="button" role="option" data-country-option data-code="+233" data-country="Ghana" data-flag="🇬🇭"><span>🇬🇭</span><strong>Ghana</strong><small>+233</small></button>
+                    <button type="button" role="option" data-country-option data-code="+224" data-country="Guinée" data-flag="🇬🇳"><span>🇬🇳</span><strong>Guinée</strong><small>+224</small></button>
+                    <button type="button" role="option" data-country-option data-code="+245" data-country="Guinée-Bissau" data-flag="🇬🇼"><span>🇬🇼</span><strong>Guinée-Bissau</strong><small>+245</small></button>
+                    <button type="button" role="option" data-country-option data-code="+231" data-country="Libéria" data-flag="🇱🇷"><span>🇱🇷</span><strong>Libéria</strong><small>+231</small></button>
+                    <button type="button" role="option" data-country-option data-code="+222" data-country="Mauritanie" data-flag="🇲🇷"><span>🇲🇷</span><strong>Mauritanie</strong><small>+222</small></button>
+                    <button type="button" role="option" data-country-option data-code="+227" data-country="Niger" data-flag="🇳🇪"><span>🇳🇪</span><strong>Niger</strong><small>+227</small></button>
+                    <button type="button" role="option" data-country-option data-code="+234" data-country="Nigeria" data-flag="🇳🇬"><span>🇳🇬</span><strong>Nigeria</strong><small>+234</small></button>
+                    <button type="button" role="option" data-country-option data-code="+221" data-country="Sénégal" data-flag="🇸🇳"><span>🇸🇳</span><strong>Sénégal</strong><small>+221</small></button>
+                    <button type="button" role="option" data-country-option data-code="+232" data-country="Sierra Leone" data-flag="🇸🇱"><span>🇸🇱</span><strong>Sierra Leone</strong><small>+232</small></button>
+                    <button type="button" role="option" data-country-option data-code="+228" data-country="Togo" data-flag="🇹🇬"><span>🇹🇬</span><strong>Togo</strong><small>+228</small></button>
+                    <button type="button" role="option" data-country-option data-code="+241" data-country="Gabon" data-flag="🇬🇦"><span>🇬🇦</span><strong>Gabon</strong><small>+241</small></button>
+                    <button type="button" role="option" data-country-option data-code="+242" data-country="Congo" data-flag="🇨🇬"><span>🇨🇬</span><strong>Congo</strong><small>+242</small></button>
+                    <button type="button" role="option" data-country-option data-code="+243" data-country="République démocratique du Congo" data-flag="🇨🇩"><span>🇨🇩</span><strong>République démocratique du Congo</strong><small>+243</small></button>
+                  </div>
+                  <input type="tel" name="telephone" placeholder="12345678" inputmode="tel" autocomplete="tel-national" required />
                 </div>
-              </label>
+              </div>
               <label>
                 Email
                 <input type="email" name="email" placeholder="vous@entreprise.com" autocomplete="email" />

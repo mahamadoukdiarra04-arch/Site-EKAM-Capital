@@ -76,16 +76,73 @@ const diagnosticFields = [
   { name: "message", label: "Message" },
 ];
 
-const syncPhonePlaceholder = (select) => {
-  const form = select.form;
-  const phoneInput = form?.elements.telephone;
-  const selectedOption = select.selectedOptions[0];
-  const example = selectedOption?.dataset.example;
+const setupPhonePicker = (form) => {
+  const picker = form.querySelector("[data-phone-picker]");
+  if (!picker) return null;
 
-  if (!phoneInput || !example) return;
+  const codeInput = form.elements.indicatif;
+  const phoneInput = form.elements.telephone;
+  const trigger = picker.querySelector("[data-country-trigger]");
+  const flag = picker.querySelector("[data-country-flag]");
+  const list = picker.querySelector("[data-country-list]");
+  const options = Array.from(picker.querySelectorAll("[data-country-option]"));
 
-  phoneInput.placeholder = example;
-  phoneInput.setAttribute("aria-label", `Numéro local, exemple ${example}`);
+  if (!codeInput || !phoneInput || !trigger || !flag || !list || options.length === 0) return null;
+
+  const closeList = () => {
+    list.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+  };
+
+  const openList = () => {
+    list.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
+  };
+
+  const selectCountry = (option, shouldFocusPhone = true) => {
+    codeInput.value = option.dataset.code || "";
+    flag.textContent = option.dataset.flag || "";
+    trigger.setAttribute("aria-label", `Pays sélectionné : ${option.dataset.country} ${option.dataset.code}`);
+    options.forEach((countryOption) => {
+      countryOption.setAttribute("aria-selected", String(countryOption === option));
+    });
+    phoneInput.placeholder = "12345678";
+    phoneInput.setAttribute("aria-label", "Numéro local, exemple 12345678");
+    closeList();
+    if (shouldFocusPhone) phoneInput.focus();
+  };
+
+  trigger.addEventListener("click", () => {
+    if (list.hidden) {
+      openList();
+    } else {
+      closeList();
+    }
+  });
+
+  trigger.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeList();
+  });
+
+  options.forEach((option) => {
+    option.addEventListener("click", () => selectCountry(option));
+  });
+
+  list.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeList();
+      trigger.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!picker.contains(event.target)) closeList();
+  });
+
+  const selectedOption = options.find((option) => option.getAttribute("aria-selected") === "true") || options[0];
+  selectCountry(selectedOption, false);
+
+  return () => selectCountry(selectedOption, false);
 };
 
 const buildDiagnosticMessage = (form) =>
@@ -128,12 +185,7 @@ const setFormFeedback = (form, type) => {
 document.querySelectorAll(".contact-form").forEach((form) => {
   const submitButton = form.querySelector('button[type="submit"]');
   const whatsappButton = form.querySelector("[data-whatsapp-submit]");
-  const indicatifSelect = form.elements.indicatif;
-
-  if (indicatifSelect) {
-    syncPhonePlaceholder(indicatifSelect);
-    indicatifSelect.addEventListener("change", () => syncPhonePlaceholder(indicatifSelect));
-  }
+  const resetPhonePicker = setupPhonePicker(form);
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -158,7 +210,7 @@ document.querySelectorAll(".contact-form").forEach((form) => {
       }
 
       form.reset();
-      if (indicatifSelect) syncPhonePlaceholder(indicatifSelect);
+      if (resetPhonePicker) resetPhonePicker();
       setFormFeedback(form, "success");
     } catch (error) {
       setFormFeedback(form, "error");
