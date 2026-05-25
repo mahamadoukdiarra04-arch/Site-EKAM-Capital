@@ -1069,12 +1069,11 @@ select {
 .phone-field {
   position: relative;
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr);
+  grid-template-columns: minmax(116px, 0.42fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: end;
   overflow: visible;
-  border: 1px solid rgba(63, 63, 63, 0.36);
-  border-radius: 2px;
-  background: #f7f5f3;
-  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  background: transparent;
 }
 
 .country-code-storage {
@@ -1088,6 +1087,8 @@ select {
 .phone-field input {
   min-width: 0;
   border: 0;
+  border-bottom: 2px solid rgba(63, 63, 63, 0.35);
+  border-radius: 0;
   background: transparent;
   box-shadow: none;
 }
@@ -1095,20 +1096,23 @@ select {
 .country-trigger {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  justify-content: flex-start;
+  gap: 8px;
   min-height: 52px;
-  padding: 0;
+  width: 100%;
+  padding: 0 0 8px;
   cursor: pointer;
   border: 0;
-  border-right: 1px solid rgba(63, 63, 63, 0.22);
-  background: rgba(255, 255, 255, 0.54);
+  border-bottom: 2px solid rgba(63, 63, 63, 0.35);
+  background: transparent;
   color: var(--green-dark);
+  transition: border-color 160ms ease, color 160ms ease;
 }
 
 .country-trigger svg {
   width: 12px;
   height: 12px;
+  margin-left: auto;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -1117,6 +1121,13 @@ select {
 .country-flag {
   font-size: 1.25rem;
   line-height: 1;
+}
+
+.country-code {
+  color: var(--green-dark);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
 .country-list {
@@ -1177,19 +1188,22 @@ select {
 }
 
 .phone-field input {
-  padding: 0 16px;
+  padding: 0 0 8px;
+  color: var(--green-dark);
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
 .country-trigger:focus,
 .phone-field input:focus {
+  border-bottom-color: var(--green);
   background: transparent;
   box-shadow: none;
+  outline: none;
 }
 
 .phone-field:focus-within {
-  border-color: var(--green);
-  background: var(--white);
-  box-shadow: 0 0 0 3px rgba(31, 77, 54, 0.12);
+  background: transparent;
 }
 
 textarea {
@@ -1203,6 +1217,11 @@ textarea:focus {
   border-color: var(--green);
   background: var(--white);
   box-shadow: 0 0 0 3px rgba(31, 77, 54, 0.12);
+}
+
+.phone-field input:focus {
+  background: transparent;
+  box-shadow: none;
 }
 
 .form-actions {

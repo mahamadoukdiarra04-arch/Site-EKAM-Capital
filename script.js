@@ -84,10 +84,11 @@ const setupPhonePicker = (form) => {
   const phoneInput = form.elements.telephone;
   const trigger = picker.querySelector("[data-country-trigger]");
   const flag = picker.querySelector("[data-country-flag]");
+  const codeLabel = picker.querySelector("[data-country-code]");
   const list = picker.querySelector("[data-country-list]");
   const options = Array.from(picker.querySelectorAll("[data-country-option]"));
 
-  if (!codeInput || !phoneInput || !trigger || !flag || !list || options.length === 0) return null;
+  if (!codeInput || !phoneInput || !trigger || !flag || !codeLabel || !list || options.length === 0) return null;
 
   const closeList = () => {
     list.hidden = true;
@@ -102,6 +103,7 @@ const setupPhonePicker = (form) => {
   const selectCountry = (option, shouldFocusPhone = true) => {
     codeInput.value = option.dataset.code || "";
     flag.textContent = option.dataset.flag || "";
+    codeLabel.textContent = option.dataset.code || "";
     trigger.setAttribute("aria-label", `Pays sélectionné : ${option.dataset.country} ${option.dataset.code}`);
     options.forEach((countryOption) => {
       countryOption.setAttribute("aria-selected", String(countryOption === option));
