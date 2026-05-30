@@ -216,6 +216,11 @@ document.querySelectorAll(".contact-form").forEach((form) => {
         throw new Error(data.message || "Form submission failed");
       }
 
+      if (form.dataset.successUrl) {
+        window.location.href = form.dataset.successUrl;
+        return;
+      }
+
       form.reset();
       if (resetPhonePicker) resetPhonePicker();
       setFormFeedback(form, "success");

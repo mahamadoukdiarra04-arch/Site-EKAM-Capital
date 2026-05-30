@@ -45,12 +45,18 @@ $entreprise = field('entreprise');
 $indicatif = field('indicatif');
 $telephone = field('telephone');
 $email = field('email');
+$offre = field('offre');
+$secteur = field('secteur');
+$utilisateurs = field('utilisateurs');
+$modeSolution = field('mode_solution');
+$delai = field('delai');
+$descriptionProjet = field('description_projet');
 $typeOrganisation = field('type_organisation');
 $service = field('service');
 $probleme = field('probleme');
 $message = field('message');
 
-if ($nom === '' || $entreprise === '' || $indicatif === '' || $telephone === '' || $service === '') {
+if ($nom === '' || $entreprise === '' || $indicatif === '' || $telephone === '' || ($service === '' && $offre === '')) {
     respond(false, 'Merci de remplir les champs obligatoires.', 422);
 }
 
@@ -58,18 +64,28 @@ $telephoneComplet = trim($indicatif . ' ' . $telephone);
 $replyTo = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : $to;
 $subjectTarget = preg_replace('/\s+/', ' ', $entreprise);
 $subjectTarget = substr($subjectTarget, 0, 80);
-$subject = 'Nouvelle demande de diagnostic EKAM Capital - ' . $subjectTarget;
+$subject = $offre !== ''
+    ? 'Nouvelle demande — Offre ' . $offre
+    : 'Nouvelle demande de diagnostic EKAM Capital - ' . $subjectTarget;
 $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 
 $body = implode("\n", [
-    'Nouvelle demande de diagnostic depuis le site EKAM Capital',
+    $offre !== '' ? 'Nouvelle demande liée à l’offre ' . $offre : 'Nouvelle demande de diagnostic depuis le site EKAM Capital',
     '',
+    'Offre: ' . ($offre !== '' ? $offre : 'Non renseignée'),
     'Nom et prénom: ' . $nom,
     "Nom de l'entreprise: " . $entreprise,
     'Téléphone / WhatsApp: ' . $telephoneComplet,
     'Email: ' . ($email !== '' ? $email : 'Non renseigné'),
+    "Secteur d'activité: " . ($secteur !== '' ? $secteur : 'Non renseigné'),
+    "Nombre approximatif d'utilisateurs: " . ($utilisateurs !== '' ? $utilisateurs : 'Non renseigné'),
     "Type d'organisation: " . ($typeOrganisation !== '' ? $typeOrganisation : 'Non renseigné'),
-    'Service recherché: ' . $service,
+    'Service recherché: ' . ($service !== '' ? $service : 'Non renseigné'),
+    "Mode de solution souhaité: " . ($modeSolution !== '' ? $modeSolution : 'Non renseigné'),
+    'Délai souhaité: ' . ($delai !== '' ? $delai : 'Non renseigné'),
+    '',
+    'Description du projet:',
+    $descriptionProjet !== '' ? $descriptionProjet : 'Non renseigné',
     '',
     'Problème principal rencontré:',
     $probleme !== '' ? $probleme : 'Non renseigné',
